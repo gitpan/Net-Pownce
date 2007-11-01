@@ -1,0 +1,180 @@
+NAME
+    Net::Pownce - Perl OO interface to pownce.com
+
+VERSION
+    This document describes Net::Pownce version 1.00
+
+SYNOPSIS
+       #!/usr/bin/perl
+
+       use lib './lib';
+
+       use Net::Pownce;
+
+       my $pownce = Net::Pownce->new();
+
+       $result = $pownce->public_note_list({username=>'cthompson', rel=>'from'});
+
+       $result = $pownce->public_note({id=>$note_id, replies=>1, limit=>20});
+
+       $result = $pownce->get_relationships({username=>'cthompson', rel=>'fan_of'});
+
+DESCRIPTION
+    From: <http://www.pownce.com/about/>
+
+       Pownce is a way to send stuff to your friends. What kind of stuff? 
+       You can send just about anything: music, photos, messages, links, events, 
+       and more.
+
+    This module implements v1.0 of the Pownce API as defined at
+    <http://pownce.pbwiki.com/API+Documentation>
+
+    This API is an extremely minimal implimentation which currently only
+    reads public information. It has no ability to log in, nor to send
+    messages.
+
+    As the API matures, future versions of this module will add new
+    functionality.
+
+    You can view the latest status of Net::Pownce on it's own Pownce account
+    at <http://pownce.com/NetPownce/>
+
+INTERFACE
+    "new()"
+        Creates the Pownce object. Currently takes no arguments due to the
+        state of the Pownce API.
+
+    "public_note_list(...)"
+        Returns a list of public notes as a hashref.
+
+        If no args are specified, this will return all public notes,
+        regardless of user.
+
+        This method accepts an optional hashref containing arguments:
+
+        "username"
+            Returns only public notes "from" this uers
+
+        "rel"
+            Valid values for this argument are "for", "from" or "to". "from"
+            returns notes from the user, "to" returns notes to the user, and
+            "for" returns a combination of both.
+
+            If this argument is not specified, it defautls to "from".
+
+        "limit"
+            Limit the number of notes returned. Default is 20 and max is
+            100.
+
+        "page"
+            Page number to display.
+
+    "public_note(...)"
+        Returns a public note by its ID.
+
+        This method accepts a hashref containing arguments:
+
+        "id"
+            REQUIRED: ID of the desired note.
+
+        "replies"
+            By default the replies will be included. To get the note without
+            replies, pass a false value for this argument.
+
+        "limit"
+            Limit the number of recipients returned. Default is 20 and max
+            is 100.
+
+    "recipient_list(...)"
+        Returns a list of note recipients, without the note.
+
+        "id"
+            REQUIRED: ID of the desired note.
+
+        "limit"
+            Limit the number of notes returned. Default is 20 and max is
+            100.
+
+        "page"
+            Page number to display.
+
+    "user_profile"
+        Retrieve a profile for a specific user.
+
+        "username"
+            REQUIRED: Username of the profile to retrieve.
+
+    "get_relationships(...)"
+        Returns a hashref containing relationships for a specific user.
+
+        "username"
+            REQUIRED: Username of the profile to retrieve.
+
+        "rel"
+            Valid values for this argument are "friends", "fans" or
+            "fan_of". "friends" returns Users who have a mutual relationship
+            with this user. "fans" returns users who are fans of the user.
+            "fan_of" returns a list of users for which the username is a
+            fan.
+
+        "limit"
+            Limit the number of users returned. Default is 20 and max is
+            100.
+
+        "page"
+            Page number to display.
+
+CONFIGURATION AND ENVIRONMENT
+    Net::Pownce uses LWP internally. Any environment variables that LWP
+    supports should be supported by Net::Pownce. I hope.
+
+DEPENDENCIES
+    LWP::UserAgent
+    JSON::Any
+
+BUGS AND LIMITATIONS
+    No bugs have been reported.
+
+    Please report any bugs or feature requests to
+    "bug-net-pownce@rt.cpan.org", or through the web interface at
+    <http://rt.cpan.org>.
+
+THIS IS
+    SPARTAAAAAAA!
+
+AUTHOR
+    Chris Thompson <cpan@cthompson.com>
+
+    The framework of this module is taken from my own Net::Twitter, which
+    was shamelessly stolen from Net::AIML. Big ups to Chris "perigrin"
+    Prather for that.
+
+LICENCE AND COPYRIGHT
+    Copyright (c) 2007, Chris Thompson <cpan@cthompson.com>. All rights
+    reserved.
+
+    This module is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself. See perlartistic.
+
+DISCLAIMER OF WARRANTY
+    BECAUSE THIS SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
+    FOR THE SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN
+    OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
+    PROVIDE THE SOFTWARE "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
+    EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE
+    ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE SOFTWARE IS WITH
+    YOU. SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
+    NECESSARY SERVICING, REPAIR, OR CORRECTION.
+
+    IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
+    WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
+    REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENCE, BE LIABLE
+    TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL, OR
+    CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE
+    SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
+    RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
+    FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
+    SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+    DAMAGES.
+
